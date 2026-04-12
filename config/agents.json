@@ -1,0 +1,6 @@
+{
+  "description": "Rutas hacia los agentes del sistema multiagente.",
+  "paths": {
+    "multiagentSystem": "../multiagent-system"
+  }
+}
