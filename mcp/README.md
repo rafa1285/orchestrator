@@ -78,6 +78,12 @@ Diagnose multiagent API connectivity used by workflows:
 powershell -NoProfile -ExecutionPolicy Bypass -File orchestrator/mcp/diagnose-multiagent-api.ps1
 ```
 
+Validate end-to-end run tracking (`run_id`) across n8n and multiagent API:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File orchestrator/mcp/test-e2e-run-tracking.ps1
+```
+
 ### MCP client example
 
 Use this sample to register the server in an MCP-capable client:
