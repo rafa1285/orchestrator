@@ -2,6 +2,7 @@
 config/*.env
 config/.env
 config/n8n-mcp.env
+mcp/n8n-mcp.client.local.json
 
 # Python cache
 __pycache__/
