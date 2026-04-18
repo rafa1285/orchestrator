@@ -22,12 +22,16 @@ It provides tools for observability and controlled operations via the n8n HTTP A
 - `n8n_get_execution`
 - `n8n_set_workflow_active` (write-protected)
 - `n8n_trigger_webhook` (write-protected)
+- `multiagent_create_run`
+- `multiagent_get_run`
+- `multiagent_list_runs`
 
 ### Security model
 
 - Read-only by default (`N8N_MCP_ENABLE_WRITE=false`)
 - Write tools are disabled unless explicitly enabled
 - n8n API key is loaded from environment variables only
+- Multiagent tools require `MULTIAGENT_API_BASE_URL`
 
 ### Setup
 

@@ -38,6 +38,13 @@ def _timeout_seconds() -> float:
     return max(3.0, value)
 
 
+def _multiagent_base_url() -> str:
+    base = os.getenv("MULTIAGENT_API_BASE_URL", "").strip().rstrip("/")
+    if not base:
+        raise RuntimeError("MULTIAGENT_API_BASE_URL is required for multiagent tools")
+    return base
+
+
 def _write_enabled() -> bool:
     return os.getenv("N8N_MCP_ENABLE_WRITE", "false").lower() == "true"
 
@@ -85,6 +92,34 @@ async def _request(
             )
         return _response_payload(resp)
     except Exception as exc:  # broad by design to return structured MCP errors
+        return {
+            "ok": False,
+            "status_code": 0,
+            "error": str(exc),
+            "path": path,
+        }
+
+
+async def _request_multiagent(
+    method: str,
+    path: str,
+    *,
+    params: Optional[Dict[str, Any]] = None,
+    json_body: Optional[Dict[str, Any]] = None,
+) -> Dict[str, Any]:
+    url = f"{_multiagent_base_url()}/{path.lstrip('/')}"
+
+    try:
+        async with httpx.AsyncClient(timeout=_timeout_seconds()) as client:
+            resp = await client.request(
+                method=method,
+                url=url,
+                params=params,
+                json=json_body,
+                headers={"Accept": "application/json", "Content-Type": "application/json"},
+            )
+        return _response_payload(resp)
+    except Exception as exc:
         return {
             "ok": False,
             "status_code": 0,
@@ -193,6 +228,24 @@ async def n8n_trigger_webhook(
         json_body=payload or {},
         use_api_key=False,
     )
+
+
+@mcp.tool()
+async def multiagent_create_run() -> Dict[str, Any]:
+    """Create a new run_id in the multiagent backend."""
+    return await _request_multiagent("POST", "/runs")
+
+
+@mcp.tool()
+async def multiagent_get_run(run_id: str) -> Dict[str, Any]:
+    """Get one run status from multiagent backend."""
+    return await _request_multiagent("GET", f"/runs/{run_id}")
+
+
+@mcp.tool()
+async def multiagent_list_runs(limit: int = 20) -> Dict[str, Any]:
+    """List recent runs from multiagent backend."""
+    return await _request_multiagent("GET", "/runs", params={"limit": max(1, min(limit, 200))})
 
 
 if __name__ == "__main__":
