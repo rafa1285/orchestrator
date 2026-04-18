@@ -12,3 +12,14 @@ that connect AI tools with external services.
 | `mcp/`    | MCP tool manifests and server configurations exposed to the orchestrator. |
 | `docs/`   | Project documentation: architecture, setup guides, and usage examples. |
 | `config/` | Environment and runtime configuration templates (no secrets). |
+
+## n8n MCP integration
+
+This workspace includes an MCP server for a deployed n8n instance:
+
+- [orchestrator/mcp/n8n_mcp_server.py](orchestrator/mcp/n8n_mcp_server.py)
+
+Setup details and client config examples are in:
+
+- [orchestrator/mcp/README.md](orchestrator/mcp/README.md)
+- [orchestrator/config/n8n-mcp.env.example](orchestrator/config/n8n-mcp.env.example)
