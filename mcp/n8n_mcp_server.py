@@ -1191,7 +1191,7 @@ async def _pm_validate_task_50() -> Dict[str, Any]:
 
 async def _pm_validate_task_51() -> Dict[str, Any]:
     workspace_root = Path(__file__).resolve().parents[2]
-    logger_path = workspace_root / "agent-tools" / "logging" / "standard_logger.py"
+    logger_path = workspace_root / "agent-tools" / "agent_logging" / "standard_logger.py"
     if not logger_path.exists():
         return {
             "task_id": "MAS-51",
