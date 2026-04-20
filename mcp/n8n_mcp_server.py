@@ -783,6 +783,99 @@ async def _pm_validate_task_40() -> Dict[str, Any]:
     }
 
 
+async def _pm_validate_task_41() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    templates_path = workspace_root / "n8n" / "workflows" / "whatsapp-message-templates.json"
+    if not templates_path.exists():
+        return {
+            "task_id": "MAS-41",
+            "ok": False,
+            "check": "meta_whatsapp_templates",
+            "reason": f"Templates file not found: {templates_path}",
+        }
+
+    text = templates_path.read_text(encoding="utf-8")
+    required_tokens = [
+        "Meta Cloud API",
+        "APPROVED",
+        "task_status_update_v1",
+        "task_changes_required_v1",
+    ]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-41",
+        "ok": len(missing) == 0,
+        "check": "meta_whatsapp_templates",
+        "details": {
+            "templates_path": str(templates_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
+async def _pm_validate_task_42() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    workflow_path = workspace_root / "n8n" / "workflows" / "whisper-transcription.json"
+    if not workflow_path.exists():
+        return {
+            "task_id": "MAS-42",
+            "ok": False,
+            "check": "whisper_transcription_flow",
+            "reason": f"Workflow not found: {workflow_path}",
+        }
+
+    text = workflow_path.read_text(encoding="utf-8")
+    required_tokens = [
+        "whisper-transcribe",
+        "Call Whisper Self-Hosted",
+        "WHISPER_BASE_URL",
+        "isAudioMessage",
+        "whisper-large-v3",
+    ]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-42",
+        "ok": len(missing) == 0,
+        "check": "whisper_transcription_flow",
+        "details": {
+            "workflow_path": str(workflow_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
+async def _pm_validate_task_43() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    workflow_path = workspace_root / "n8n" / "workflows" / "whatsapp.json"
+    if not workflow_path.exists():
+        return {
+            "task_id": "MAS-43",
+            "ok": False,
+            "check": "whatsapp_structured_response",
+            "reason": f"Workflow not found: {workflow_path}",
+        }
+
+    text = workflow_path.read_text(encoding="utf-8")
+    required_tokens = [
+        "whatsapp_response",
+        "task_status",
+        "pr_url",
+        "deploy_url",
+        "error_message",
+        "meta_cloud_api",
+    ]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-43",
+        "ok": len(missing) == 0,
+        "check": "whatsapp_structured_response",
+        "details": {
+            "workflow_path": str(workflow_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
 async def _pm_validate_task_44() -> Dict[str, Any]:
     workspace_root = Path(__file__).resolve().parents[2]
     server_path = workspace_root / "orchestrator" / "mcp" / "filesystem_mcp_server.py"
@@ -1046,6 +1139,9 @@ async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
         "MAS-38": _pm_validate_task_38,
         "MAS-39": _pm_validate_task_39,
         "MAS-40": _pm_validate_task_40,
+        "MAS-41": _pm_validate_task_41,
+        "MAS-42": _pm_validate_task_42,
+        "MAS-43": _pm_validate_task_43,
         "MAS-44": _pm_validate_task_44,
         "MAS-45": _pm_validate_task_45,
         "MAS-46": _pm_validate_task_46,
