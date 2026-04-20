@@ -1,0 +1,25 @@
+projects:
+  - name: multiagent-system
+    repo: https://github.com/rafa/multiagent-system
+    environments: [dev, staging, production]
+    stack: python-fastapi
+
+  - name: backend-template
+    repo: https://github.com/rafa/backend-template
+    environments: [dev, staging]
+    stack: polyglot-template
+
+  - name: orchestrator
+    repo: https://github.com/rafa/orchestrator
+    environments: [dev, staging, production]
+    stack: python-mcp
+
+  - name: agent-tools
+    repo: https://github.com/rafa/agent-tools
+    environments: [dev]
+    stack: python-utils
+
+  - name: n8n
+    repo: https://github.com/rafa/n8n
+    environments: [dev, staging, production]
+    stack: n8n-workflows

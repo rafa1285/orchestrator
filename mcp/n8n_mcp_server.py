@@ -1119,6 +1119,126 @@ async def _pm_validate_task_47() -> Dict[str, Any]:
     }
 
 
+async def _pm_validate_task_49() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    deployer_path = workspace_root / "multiagent-system" / "agents" / "deployer" / "agent.py"
+    if not deployer_path.exists():
+        return {
+            "task_id": "MAS-49",
+            "ok": False,
+            "check": "github_repo_auto_create",
+            "reason": f"Deployer file not found: {deployer_path}",
+        }
+
+    text = deployer_path.read_text(encoding="utf-8")
+    required_tokens = [
+        "def _create_github_repo",
+        "GITHUB_TOKEN",
+        "/user/repos",
+        "github_repo",
+        "MAS-49",
+    ]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-49",
+        "ok": len(missing) == 0,
+        "check": "github_repo_auto_create",
+        "details": {
+            "deployer_path": str(deployer_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
+async def _pm_validate_task_50() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    projects_map_path = workspace_root / "orchestrator" / "config" / "projects.yaml"
+    planner_path = workspace_root / "multiagent-system" / "agents" / "planner" / "agent.py"
+
+    missing_files = [
+        str(path)
+        for path in [projects_map_path, planner_path]
+        if not path.exists()
+    ]
+    if missing_files:
+        return {
+            "task_id": "MAS-50",
+            "ok": False,
+            "check": "projects_map_for_planner",
+            "reason": "Missing expected files",
+            "details": {"missing_files": missing_files},
+        }
+
+    map_text = projects_map_path.read_text(encoding="utf-8")
+    planner_text = planner_path.read_text(encoding="utf-8")
+    required_map_tokens = ["projects:", "name:", "repo:", "environments:"]
+    required_planner_tokens = ["projects.yaml", "_load_projects_map", "project_context", "matched_projects"]
+    missing_map = [token for token in required_map_tokens if token not in map_text]
+    missing_planner = [token for token in required_planner_tokens if token not in planner_text]
+
+    return {
+        "task_id": "MAS-50",
+        "ok": len(missing_map) == 0 and len(missing_planner) == 0,
+        "check": "projects_map_for_planner",
+        "details": {
+            "projects_map_path": str(projects_map_path),
+            "planner_path": str(planner_path),
+            "missing_map_tokens": missing_map,
+            "missing_planner_tokens": missing_planner,
+        },
+    }
+
+
+async def _pm_validate_task_51() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    logger_path = workspace_root / "agent-tools" / "logging" / "standard_logger.py"
+    if not logger_path.exists():
+        return {
+            "task_id": "MAS-51",
+            "ok": False,
+            "check": "agent_tools_logging_standardized",
+            "reason": f"Logger file not found: {logger_path}",
+        }
+
+    text = logger_path.read_text(encoding="utf-8")
+    required_tokens = ["JsonFormatter", "configure_logging", "get_logger", "timestamp", "run_id"]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-51",
+        "ok": len(missing) == 0,
+        "check": "agent_tools_logging_standardized",
+        "details": {
+            "logger_path": str(logger_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
+async def _pm_validate_task_52() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    validators_path = workspace_root / "agent-tools" / "validators" / "input_validators.py"
+    if not validators_path.exists():
+        return {
+            "task_id": "MAS-52",
+            "ok": False,
+            "check": "agent_tools_input_validators",
+            "reason": f"Validators file not found: {validators_path}",
+        }
+
+    text = validators_path.read_text(encoding="utf-8")
+    required_tokens = ["validate_agent_payload", "planner", "developer", "reviewer", "deployer", "missing_fields"]
+    missing = [token for token in required_tokens if token not in text]
+    return {
+        "task_id": "MAS-52",
+        "ok": len(missing) == 0,
+        "check": "agent_tools_input_validators",
+        "details": {
+            "validators_path": str(validators_path),
+            "missing_tokens": missing,
+        },
+    }
+
+
 async def _pm_validate_task_39() -> Dict[str, Any]:
     workspace_root = Path(__file__).resolve().parents[2]
     required_pairs = [
@@ -1192,6 +1312,10 @@ async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
         "MAS-46": _pm_validate_task_46,
         "MAS-47": _pm_validate_task_47,
         "MAS-48": _pm_validate_task_48,
+        "MAS-49": _pm_validate_task_49,
+        "MAS-50": _pm_validate_task_50,
+        "MAS-51": _pm_validate_task_51,
+        "MAS-52": _pm_validate_task_52,
         "MAS-33": _pm_validate_task_33,
     }
     validator = validators.get(task_id)
