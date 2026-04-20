@@ -981,6 +981,61 @@ async def _pm_validate_task_48() -> Dict[str, Any]:
     }
 
 
+async def _pm_validate_task_39() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    required_pairs = [
+        (
+            workspace_root / "multiagent-system" / "agents" / "planner" / "agent.py",
+            workspace_root / "multiagent-system" / "agents" / "planner" / "prompts" / "system.md",
+        ),
+        (
+            workspace_root / "multiagent-system" / "agents" / "developer" / "agent.py",
+            workspace_root / "multiagent-system" / "agents" / "developer" / "prompts" / "system.md",
+        ),
+        (
+            workspace_root / "multiagent-system" / "agents" / "reviewer" / "agent.py",
+            workspace_root / "multiagent-system" / "agents" / "reviewer" / "prompts" / "system.md",
+        ),
+        (
+            workspace_root / "multiagent-system" / "agents" / "deployer" / "agent.py",
+            workspace_root / "multiagent-system" / "agents" / "deployer" / "prompts" / "system.md",
+        ),
+    ]
+
+    missing_files: List[str] = []
+    missing_agent_tokens: Dict[str, List[str]] = {}
+    empty_prompts: List[str] = []
+
+    for agent_path, prompt_path in required_pairs:
+        if not agent_path.exists():
+            missing_files.append(str(agent_path))
+            continue
+        if not prompt_path.exists():
+            missing_files.append(str(prompt_path))
+            continue
+
+        agent_text = agent_path.read_text(encoding="utf-8")
+        prompt_text = prompt_path.read_text(encoding="utf-8").strip()
+        if not prompt_text:
+            empty_prompts.append(str(prompt_path))
+
+        expected_tokens = ["_load_system_prompt", "self.system_prompt", "prompts", "system.md"]
+        missing_tokens = [token for token in expected_tokens if token not in agent_text]
+        if missing_tokens:
+            missing_agent_tokens[str(agent_path)] = missing_tokens
+
+    return {
+        "task_id": "MAS-39",
+        "ok": len(missing_files) == 0 and len(empty_prompts) == 0 and len(missing_agent_tokens) == 0,
+        "check": "agent_system_prompts",
+        "details": {
+            "missing_files": missing_files,
+            "empty_prompts": empty_prompts,
+            "missing_agent_tokens": missing_agent_tokens,
+        },
+    }
+
+
 async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
     validators = {
         "MAS-20": _pm_validate_task_20,
@@ -989,6 +1044,7 @@ async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
         "MAS-36": _pm_validate_task_36,
         "MAS-37": _pm_validate_task_37,
         "MAS-38": _pm_validate_task_38,
+        "MAS-39": _pm_validate_task_39,
         "MAS-40": _pm_validate_task_40,
         "MAS-44": _pm_validate_task_44,
         "MAS-45": _pm_validate_task_45,
