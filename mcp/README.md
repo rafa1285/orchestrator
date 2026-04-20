@@ -71,6 +71,23 @@ Exposed tools:
 - `exec_allowed_commands`
 - `exec_run`
 
+### HTTP whitelist MCP server
+
+Domain-restricted HTTP MCP server with strict method allowlist:
+
+- [orchestrator/mcp/http_mcp_server.py](orchestrator/mcp/http_mcp_server.py)
+
+Required env vars:
+
+- `HTTP_ALLOWED_DOMAINS`: comma-separated allowlist of hostnames.
+- `HTTP_ALLOWED_METHODS`: comma-separated allowed methods (`GET,POST` recommended).
+- `HTTP_TIMEOUT_SECONDS`: bounded request timeout.
+
+Exposed tools:
+
+- `http_allowed_config`
+- `http_request`
+
 ### Available tools
 
 - `n8n_health_check`

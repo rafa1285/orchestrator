@@ -47,6 +47,17 @@
         "EXEC_WORKDIR": "C:/multiagent-system-suite/orchestrator",
         "EXEC_ALLOWED_COMMANDS": "echo,pwd,whoami,python,node,npm,git"
       }
+    },
+    "http-whitelist": {
+      "command": "python",
+      "args": [
+        "orchestrator/mcp/http_mcp_server.py"
+      ],
+      "env": {
+        "HTTP_ALLOWED_DOMAINS": "api.render.com,api.github.com",
+        "HTTP_ALLOWED_METHODS": "GET,POST",
+        "HTTP_TIMEOUT_SECONDS": "20"
+      }
     }
   }
 }
