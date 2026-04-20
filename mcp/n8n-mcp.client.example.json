@@ -9,8 +9,25 @@
         "N8N_BASE_URL": "https://your-n8n-service.onrender.com",
         "N8N_API_KEY": "replace-with-real-api-key",
         "N8N_HTTP_TIMEOUT": "30",
+        "MULTIAGENT_API_BASE_URL": "https://your-multiagent-api.onrender.com",
+        "JIRA_BASE_URL": "https://your-company.atlassian.net",
+        "JIRA_EMAIL": "you@company.com",
+        "JIRA_API_TOKEN": "replace-with-jira-api-token",
+        "JIRA_PROJECT_KEY": "MAS",
+        "JIRA_MCP_ENABLE_WRITE": "false",
         "N8N_MCP_ENABLE_WRITE": "false"
+      }
+    },
+    "filesystem-sandbox": {
+      "command": "python",
+      "args": [
+        "orchestrator/mcp/filesystem_mcp_server.py"
+      ],
+      "env": {
+        "ALLOWED_PROJECTS": "orchestrator=C:/multiagent-system-suite/orchestrator;n8n=C:/multiagent-system-suite/n8n"
       }
     }
   }
 }
+
+

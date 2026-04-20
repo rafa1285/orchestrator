@@ -13,6 +13,29 @@ This repository now includes an MCP server for a Render-hosted n8n instance:
 
 It provides tools for observability and controlled operations via the n8n HTTP API.
 
+### Filesystem sandbox MCP server
+
+This folder also includes a dedicated filesystem MCP server with per-project sandboxing:
+
+- [orchestrator/mcp/filesystem_mcp_server.py](orchestrator/mcp/filesystem_mcp_server.py)
+
+Required env var:
+
+- `ALLOWED_PROJECTS`: semicolon-separated `name=absolute_path` pairs.
+
+Example:
+
+```text
+ALLOWED_PROJECTS=orchestrator=C:/multiagent-system-suite/orchestrator;n8n=C:/multiagent-system-suite/n8n
+```
+
+Exposed tools:
+
+- `fs_list_projects`
+- `fs_list_dir`
+- `fs_read_text`
+- `fs_write_text`
+
 ### Available tools
 
 - `n8n_health_check`
@@ -25,6 +48,17 @@ It provides tools for observability and controlled operations via the n8n HTTP A
 - `multiagent_create_run`
 - `multiagent_get_run`
 - `multiagent_list_runs`
+- `jira_health_check`
+- `jira_create_issue` (write-protected)
+- `jira_list_issues`
+- `jira_add_comment` (write-protected)
+- `jira_transition_issue` (write-protected)
+- `jira_link_run` (write-protected)
+- `pm_sync_backlog` (write-protected)
+- `pm_plan_backlog`
+- `pm_execute_backlog` (write-protected)
+- `pm_find_backlog_duplicates`
+- `pm_cleanup_backlog_duplicates` (write-protected when apply_changes=true)
 
 ### Security model
 
@@ -32,6 +66,31 @@ It provides tools for observability and controlled operations via the n8n HTTP A
 - Write tools are disabled unless explicitly enabled
 - n8n API key is loaded from environment variables only
 - Multiagent tools require `MULTIAGENT_API_BASE_URL`
+- Jira write tools require `JIRA_MCP_ENABLE_WRITE=true`
+
+### Jira setup
+
+Set these environment variables in your local env file:
+
+- `JIRA_BASE_URL` (for example `https://your-company.atlassian.net`)
+- `JIRA_EMAIL`
+- `JIRA_API_TOKEN`
+- `JIRA_PROJECT_KEY` (default project when creating/listing issues)
+- `JIRA_MCP_ENABLE_WRITE` (`true` to allow create/transition/comment/link)
+
+### PM agent workflow
+
+The MCP server includes a project-manager agent layer for Jira backlog control:
+
+- `pm_sync_backlog`: creates missing epics/tasks from the technical catalog
+- `pm_plan_backlog`: returns next executable tasks by priority/dependencies
+- `pm_execute_backlog`: runs PM cycle (`En curso` -> evidence/tests -> `Listo`)
+
+Recommended sequence:
+
+1. `pm_sync_backlog`
+2. `pm_plan_backlog`
+3. `pm_execute_backlog` (start with `dry_run=true`)
 
 ### Setup
 
@@ -82,6 +141,12 @@ Validate end-to-end run tracking (`run_id`) across n8n and multiagent API:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File orchestrator/mcp/test-e2e-run-tracking.ps1
+```
+
+Create Jira task + run full pipeline + auto-link `run_id` in one command:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File orchestrator/mcp/run-full-pipeline-with-jira.ps1 -Task "Build booking CRUD API"
 ```
 
 ### MCP client example
