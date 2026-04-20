@@ -920,6 +920,67 @@ async def _pm_validate_task_46() -> Dict[str, Any]:
     }
 
 
+async def _pm_validate_task_48() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    ci_path = workspace_root / "backend-template" / ".github" / "workflows" / "ci.yml"
+    cd_path = workspace_root / "backend-template" / ".github" / "workflows" / "cd.yml"
+    readme_path = workspace_root / "backend-template" / "README.md"
+
+    missing_files = [
+        str(path)
+        for path in [ci_path, cd_path, readme_path]
+        if not path.exists()
+    ]
+    if missing_files:
+        return {
+            "task_id": "MAS-48",
+            "ok": False,
+            "check": "backend_template_cicd",
+            "reason": "Missing expected files",
+            "details": {"missing_files": missing_files},
+        }
+
+    ci_text = ci_path.read_text(encoding="utf-8")
+    cd_text = cd_path.read_text(encoding="utf-8")
+    readme_text = readme_path.read_text(encoding="utf-8")
+
+    required_ci_tokens = [
+        "Backend Template CI",
+        "actions/setup-node@v4",
+        "actions/setup-python@v5",
+        "Verify template structure",
+    ]
+    required_cd_tokens = [
+        "Backend Template CD",
+        "workflow_dispatch",
+        "DEPLOY_COMMAND",
+        "actions/upload-artifact@v4",
+    ]
+    required_readme_tokens = [
+        "CI/CD Template Included",
+        "DEPLOY_COMMAND",
+        "cd.yml",
+    ]
+
+    missing_ci = [token for token in required_ci_tokens if token not in ci_text]
+    missing_cd = [token for token in required_cd_tokens if token not in cd_text]
+    missing_readme = [token for token in required_readme_tokens if token not in readme_text]
+
+    return {
+        "task_id": "MAS-48",
+        "ok": len(missing_ci) == 0 and len(missing_cd) == 0 and len(missing_readme) == 0,
+        "check": "backend_template_cicd",
+        "details": {
+            "ci_path": str(ci_path),
+            "cd_path": str(cd_path),
+            "readme_path": str(readme_path),
+            "missing_ci_tokens": missing_ci,
+            "missing_cd_tokens": missing_cd,
+            "missing_readme_tokens": missing_readme,
+        },
+    }
+
+
 async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
     validators = {
         "MAS-20": _pm_validate_task_20,
@@ -932,6 +993,7 @@ async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
         "MAS-44": _pm_validate_task_44,
         "MAS-45": _pm_validate_task_45,
         "MAS-46": _pm_validate_task_46,
+        "MAS-48": _pm_validate_task_48,
         "MAS-33": _pm_validate_task_33,
     }
     validator = validators.get(task_id)
