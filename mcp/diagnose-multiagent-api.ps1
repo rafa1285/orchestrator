@@ -15,6 +15,10 @@ Get-Content $envFile |
 
 $base = [string]$env:MULTIAGENT_API_BASE_URL
 $base = $base.TrimEnd('/')
+$headers = @{}
+if (-not [string]::IsNullOrWhiteSpace($env:MULTIAGENT_API_KEY)) {
+    $headers['X-API-Key'] = $env:MULTIAGENT_API_KEY
+}
 if ([string]::IsNullOrWhiteSpace($base)) {
     [pscustomobject]@{
         ok = $false
@@ -40,10 +44,10 @@ foreach ($t in $tests) {
     $url = "$base$($t.path)"
     try {
         if ($t.method -eq 'GET') {
-            $resp = Invoke-WebRequest -Uri $url -Method GET -TimeoutSec 40
+            $resp = Invoke-WebRequest -Uri $url -Method GET -Headers $headers -TimeoutSec 40
         }
         else {
-            $resp = Invoke-WebRequest -Uri $url -Method POST -ContentType 'application/json' -Body ($t.body | ConvertTo-Json -Depth 20) -TimeoutSec 40
+            $resp = Invoke-WebRequest -Uri $url -Method POST -Headers $headers -ContentType 'application/json' -Body ($t.body | ConvertTo-Json -Depth 20) -TimeoutSec 40
         }
 
         $sample = $resp.Content

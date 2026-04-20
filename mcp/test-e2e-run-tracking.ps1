@@ -13,8 +13,12 @@ Get-Content $envFile |
         [System.Environment]::SetEnvironmentVariable($k, $v, 'Process')
     }
 
-$n8nBase = $env:N8N_BASE_URL.TrimEnd('/')
-$multiagentBase = $env:MULTIAGENT_API_BASE_URL.TrimEnd('/')
+$n8nBase = ([string]$env:N8N_BASE_URL).TrimEnd('/')
+$multiagentBase = ([string]$env:MULTIAGENT_API_BASE_URL).TrimEnd('/')
+$multiagentHeaders = @{}
+if (-not [string]::IsNullOrWhiteSpace($env:MULTIAGENT_API_KEY)) {
+    $multiagentHeaders['X-API-Key'] = $env:MULTIAGENT_API_KEY
+}
 
 if (-not $n8nBase) {
     throw 'N8N_BASE_URL is required in env file'
@@ -28,7 +32,7 @@ Write-Output "n8n: $n8nBase"
 Write-Output "multiagent: $multiagentBase"
 
 try {
-    $health = Invoke-RestMethod -Uri "$multiagentBase/" -Method GET -TimeoutSec 60
+    $health = Invoke-RestMethod -Uri "$multiagentBase/" -Method GET -Headers $multiagentHeaders -TimeoutSec 60
     Write-Output ("multiagent health: {0}" -f ($health | ConvertTo-Json -Compress))
 }
 catch {
@@ -36,7 +40,7 @@ catch {
 }
 
 try {
-    $created = Invoke-RestMethod -Uri "$multiagentBase/runs" -Method POST -ContentType 'application/json' -Body '{}' -TimeoutSec 60
+    $created = Invoke-RestMethod -Uri "$multiagentBase/runs" -Method POST -Headers $multiagentHeaders -ContentType 'application/json' -Body '{}' -TimeoutSec 60
 }
 catch {
     throw "Cannot create run. Is latest backend deployed? Error: $($_.Exception.Message)"
@@ -64,7 +68,7 @@ catch {
 }
 
 try {
-    $run = Invoke-RestMethod -Uri "$multiagentBase/runs/$runId" -Method GET -TimeoutSec 60
+    $run = Invoke-RestMethod -Uri "$multiagentBase/runs/$runId" -Method GET -Headers $multiagentHeaders -TimeoutSec 60
 }
 catch {
     throw "Failed to read run status for ${runId}: $($_.Exception.Message)"

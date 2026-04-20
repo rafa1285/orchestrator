@@ -29,7 +29,8 @@ $targetFiles = @(
     'whatsapp.json',
     'planner.json',
     'developer.json',
-    'mcp.json'
+    'mcp.json',
+    'jira-task-manager.json'
 )
 
 $listResp = Invoke-RestMethod -Uri "$base/api/v1/workflows?limit=250" -Method GET -Headers $headers
