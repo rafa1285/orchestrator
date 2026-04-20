@@ -829,6 +829,52 @@ async def _pm_validate_task_44() -> Dict[str, Any]:
     }
 
 
+async def _pm_validate_task_45() -> Dict[str, Any]:
+    workspace_root = Path(__file__).resolve().parents[2]
+    server_path = workspace_root / "orchestrator" / "mcp" / "git_mcp_server.py"
+    client_example_path = workspace_root / "orchestrator" / "mcp" / "n8n-mcp.client.example.json"
+
+    if not server_path.exists():
+        return {
+            "task_id": "MAS-45",
+            "ok": False,
+            "check": "mcp_git_min_permissions",
+            "reason": f"Server file not found: {server_path}",
+        }
+
+    server_text = server_path.read_text(encoding="utf-8")
+    client_text = client_example_path.read_text(encoding="utf-8") if client_example_path.exists() else ""
+
+    required_server_tokens = [
+        "GIT_REPO_ROOT",
+        "GIT_ALLOWED_COMMANDS",
+        "GIT_READ_ONLY",
+        "Git command not allowed",
+        "read-only mode",
+        "def git_status_short",
+    ]
+    missing_server = [token for token in required_server_tokens if token not in server_text]
+
+    required_client_tokens = [
+        '"git-minimal"',
+        "git_mcp_server.py",
+        "GIT_ALLOWED_COMMANDS",
+    ]
+    missing_client = [token for token in required_client_tokens if token not in client_text]
+
+    return {
+        "task_id": "MAS-45",
+        "ok": len(missing_server) == 0 and len(missing_client) == 0,
+        "check": "mcp_git_min_permissions",
+        "details": {
+            "server_path": str(server_path),
+            "client_example_path": str(client_example_path),
+            "missing_server_tokens": missing_server,
+            "missing_client_tokens": missing_client,
+        },
+    }
+
+
 async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
     validators = {
         "MAS-20": _pm_validate_task_20,
@@ -839,6 +885,7 @@ async def _pm_task_specific_validation(task_id: str) -> Dict[str, Any]:
         "MAS-38": _pm_validate_task_38,
         "MAS-40": _pm_validate_task_40,
         "MAS-44": _pm_validate_task_44,
+        "MAS-45": _pm_validate_task_45,
         "MAS-33": _pm_validate_task_33,
     }
     validator = validators.get(task_id)

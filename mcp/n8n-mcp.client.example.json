@@ -26,6 +26,17 @@
       "env": {
         "ALLOWED_PROJECTS": "orchestrator=C:/multiagent-system-suite/orchestrator;n8n=C:/multiagent-system-suite/n8n"
       }
+    },
+    "git-minimal": {
+      "command": "python",
+      "args": [
+        "orchestrator/mcp/git_mcp_server.py"
+      ],
+      "env": {
+        "GIT_REPO_ROOT": "C:/multiagent-system-suite/orchestrator",
+        "GIT_ALLOWED_COMMANDS": "status,log,diff,show,branch,rev-parse",
+        "GIT_READ_ONLY": "true"
+      }
     }
   }
 }

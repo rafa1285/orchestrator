@@ -36,6 +36,25 @@ Exposed tools:
 - `fs_read_text`
 - `fs_write_text`
 
+### Git minimal-permissions MCP server
+
+Dedicated Git MCP server with explicit command allowlist and read-only mode by default:
+
+- [orchestrator/mcp/git_mcp_server.py](orchestrator/mcp/git_mcp_server.py)
+
+Required env vars:
+
+- `GIT_REPO_ROOT`: absolute path to the git repository.
+- `GIT_ALLOWED_COMMANDS`: comma-separated allowlist of git subcommands.
+- `GIT_READ_ONLY`: `true` by default, blocks mutating commands.
+
+Exposed tools:
+
+- `git_status_short`
+- `git_log_oneline`
+- `git_diff`
+- `git_show`
+
 ### Available tools
 
 - `n8n_health_check`
