@@ -1,0 +1,319 @@
+﻿{
+  "snapshot_date": "2026-04-20",
+  "jira_query": {
+    "project": "SCRUM",
+    "label": "mas-backlog-v2",
+    "statusCategory": "!=Done"
+  },
+  "jira_unresolved_count": 0,
+  "planner_pending_total": 0,
+  "planner_ready_total": 0,
+  "status": "closed",
+  "notes": [
+    "Backlog v2 fully closed in Jira.",
+    "PM planner returned pending_total=0 and ready_total=0.",
+    "Future work should be created as new issues and re-snapshotted."
+  ]
+}
+    },
+    {
+        "key":  "SCRUM-20",
+        "type":  "Tarea",
+        "summary":  "MAS-10 estado persistente de runs en DB",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-5",
+        "labels":  [
+                       "epic-run-state-002",
+                       "mas-10",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-21",
+        "type":  "Tarea",
+        "summary":  "MAS-11 idempotencia por hash de input y cache success",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-5",
+        "labels":  [
+                       "epic-run-state-002",
+                       "mas-11",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-22",
+        "type":  "Tarea",
+        "summary":  "MAS-12 limite de intentos por etapa en backend",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-5",
+        "labels":  [
+                       "epic-run-state-002",
+                       "mas-12",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-23",
+        "type":  "Tarea",
+        "summary":  "MAS-13 reintentos con backoff por etapa en n8n",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-5",
+        "labels":  [
+                       "epic-run-state-002",
+                       "mas-13",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-24",
+        "type":  "Tarea",
+        "summary":  "MAS-14 reanudar pipeline desde etapa fallida",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-5",
+        "labels":  [
+                       "epic-run-state-002",
+                       "mas-14",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-25",
+        "type":  "Tarea",
+        "summary":  "MAS-15 uso temporal de DB compartida n8n-db para run state",
+        "status":  "Finalizada",
+        "priority":  "Medium",
+        "parent":  "SCRUM-6",
+        "labels":  [
+                       "epic-data-002",
+                       "mas-15",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-26",
+        "type":  "Tarea",
+        "summary":  "MAS-16 provisionar base dedicada para multiagent-system",
+        "status":  "Tareas por hacer",
+        "priority":  "Medium",
+        "parent":  "SCRUM-6",
+        "labels":  [
+                       "blocked",
+                       "epic-data-002",
+                       "mas-16",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-27",
+        "type":  "Tarea",
+        "summary":  "MAS-17 plan de migracion a DB dedicada sin downtime",
+        "status":  "Tareas por hacer",
+        "priority":  "Medium",
+        "parent":  "SCRUM-6",
+        "labels":  [
+                       "epic-data-002",
+                       "mas-17",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-28",
+        "type":  "Tarea",
+        "summary":  "MAS-18 exclusion de archivos sensibles y locales en gitignore",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-7",
+        "labels":  [
+                       "epic-sec-002",
+                       "mas-18",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-29",
+        "type":  "Tarea",
+        "summary":  "MAS-19 rotacion de credenciales usadas en pruebas",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-7",
+        "labels":  [
+                       "epic-sec-002",
+                       "mas-19",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-30",
+        "type":  "Tarea",
+        "summary":  "MAS-20 autenticacion API key en endpoints multiagent",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-7",
+        "labels":  [
+                       "epic-sec-002",
+                       "mas-20",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-31",
+        "type":  "Tarea",
+        "summary":  "MAS-21 reducir exposicion de credenciales Jira en payloads",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-7",
+        "labels":  [
+                       "epic-sec-002",
+                       "mas-21",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-32",
+        "type":  "Tarea",
+        "summary":  "MAS-22 smoke tests operativos de webhooks y runs",
+        "status":  "Finalizada",
+        "priority":  "Medium",
+        "parent":  "SCRUM-8",
+        "labels":  [
+                       "epic-quality-002",
+                       "mas-22",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-33",
+        "type":  "Tarea",
+        "summary":  "MAS-23 suite de tests backend unit e integracion",
+        "status":  "Tareas por hacer",
+        "priority":  "High",
+        "parent":  "SCRUM-8",
+        "labels":  [
+                       "epic-quality-002",
+                       "mas-23",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-34",
+        "type":  "Tarea",
+        "summary":  "MAS-24 tests de regresion para workflows n8n",
+        "status":  "Tareas por hacer",
+        "priority":  "Medium",
+        "parent":  "SCRUM-8",
+        "labels":  [
+                       "epic-quality-002",
+                       "mas-24",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-35",
+        "type":  "Tarea",
+        "summary":  "MAS-25 alertas y metricas por etapa latencia y retries",
+        "status":  "Tareas por hacer",
+        "priority":  "Medium",
+        "parent":  "SCRUM-8",
+        "labels":  [
+                       "epic-quality-002",
+                       "mas-25",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-36",
+        "type":  "Tarea",
+        "summary":  "MAS-26 pipeline planner developer reviewer deployer operativo",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-9",
+        "labels":  [
+                       "epic-arch-002",
+                       "mas-26",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-37",
+        "type":  "Tarea",
+        "summary":  "MAS-27 estados terminales completed changes_required error",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-9",
+        "labels":  [
+                       "epic-arch-002",
+                       "mas-27",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-38",
+        "type":  "Tarea",
+        "summary":  "MAS-28 politicas de compensacion o dead-letter en fallos repetidos",
+        "status":  "Tareas por hacer",
+        "priority":  "Medium",
+        "parent":  "SCRUM-9",
+        "labels":  [
+                       "epic-arch-002",
+                       "mas-28",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-39",
+        "type":  "Tarea",
+        "summary":  "MAS-29 workflow jira-task-manager con create list comment transition link",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-10",
+        "labels":  [
+                       "epic-jira-002",
+                       "mas-29",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-40",
+        "type":  "Tarea",
+        "summary":  "MAS-30 auto-link run_id a Jira desde full pipeline",
+        "status":  "Finalizada",
+        "priority":  "High",
+        "parent":  "SCRUM-10",
+        "labels":  [
+                       "epic-jira-002",
+                       "mas-30",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-41",
+        "type":  "Tarea",
+        "summary":  "MAS-31 script de un comando crear issue ejecutar pipeline enlazar run",
+        "status":  "Finalizada",
+        "priority":  "Medium",
+        "parent":  "SCRUM-10",
+        "labels":  [
+                       "epic-jira-002",
+                       "mas-31",
+                       "mas-backlog-v2"
+                   ]
+    },
+    {
+        "key":  "SCRUM-42",
+        "type":  "Tarea",
+        "summary":  "MAS-32 sincronizar backlog tecnico completo en Jira",
+        "status":  "Finalizada",
+        "priority":  "Medium",
+        "parent":  "SCRUM-10",
+        "labels":  [
+                       "epic-jira-002",
+                       "mas-32",
+                       "mas-backlog-v2"
+                   ]
+    }
+]
