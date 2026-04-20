@@ -37,6 +37,16 @@
         "GIT_ALLOWED_COMMANDS": "status,log,diff,show,branch,rev-parse",
         "GIT_READ_ONLY": "true"
       }
+    },
+    "exec-whitelist": {
+      "command": "python",
+      "args": [
+        "orchestrator/mcp/exec_mcp_server.py"
+      ],
+      "env": {
+        "EXEC_WORKDIR": "C:/multiagent-system-suite/orchestrator",
+        "EXEC_ALLOWED_COMMANDS": "echo,pwd,whoami,python,node,npm,git"
+      }
     }
   }
 }

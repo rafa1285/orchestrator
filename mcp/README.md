@@ -55,6 +55,22 @@ Exposed tools:
 - `git_diff`
 - `git_show`
 
+### Exec whitelist MCP server
+
+Isolated command execution server with explicit command allowlist and shell token blocking:
+
+- [orchestrator/mcp/exec_mcp_server.py](orchestrator/mcp/exec_mcp_server.py)
+
+Required env vars:
+
+- `EXEC_WORKDIR`: absolute working directory.
+- `EXEC_ALLOWED_COMMANDS`: comma-separated command whitelist.
+
+Exposed tools:
+
+- `exec_allowed_commands`
+- `exec_run`
+
 ### Available tools
 
 - `n8n_health_check`
